@@ -1,11 +1,35 @@
-<?php
-echo "hello world";
-$link = mysqli_connect("172.18.0.2","root","coba123");
-if (!$link){
-echo "tidak bisa konek ke MySQL" . PHP_EOL;
-exit;
-}
-echo "Sukses: Koneksi telah terbuat!" . PHP_EOL;
-echo "Host Information: " . mysqli_get_host_info($link) . PHP_EOL;
-mysqli_close($link);
-?>
+<html>
+<head>
+	<title>Test UAS SA</title>
+</head>
+<body>
+ 
+    <h1>Halaman Dinamis</h1>
+ 
+	<div id="menu">
+    	<a href="index.php?p=home">Home</a> /
+        <a href="index.php?p=about">About</a> /
+        <a href="index.php?p=contact">Contact</a>
+    </div>
+ 
+    <div id="konten">
+    	<?php
+		$pages_dir = 'pages';
+		if(!empty($_GET['p'])){
+			$pages = scandir($pages_dir, 0);
+			unset($pages[0], $pages[1]);
+ 
+			$p = $_GET['p'];
+			if(in_array($p.'.php', $pages)){
+				include($pages_dir.'/'.$p.'.php');
+			} else {
+				echo 'Halaman tidak ditemukan! :(';
+			}
+		} else {
+			include($pages_dir.'/home.php');
+		}
+		?>
+    </div>
+ 
+</body>
+</html>
